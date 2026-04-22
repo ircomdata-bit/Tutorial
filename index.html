@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial Power BI — IRdata Aduana Chile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  :root {
+    --blue: #4A7FB5;
+    --blue-light: #7AADD4;
+    --blue-dark: #1E3A5F;
+    --bg: #F4F7FA;
+    --white: #FFFFFF;
+    --text: #1A2540;
+    --muted: #6B7A99;
+    --border: #D8E3EF;
+    --green: #2ECC8F;
+    --orange: #F5A623;
+    --red: #E05252;
+    --tag-bg: #E8F0FA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--blue-dark);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+
+  .logo span { color: var(--blue-light); }
+
+  .header-badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    background: rgba(255,255,255,0.1);
+    height: 3px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--blue-light);
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 32px;
+    padding-top: 32px;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .sidebar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 2px;
+    text-decoration: none;
+  }
+
+  .nav-item:hover { background: var(--tag-bg); }
+  .nav-item.active { background: var(--blue-dark); color: white; }
+  .nav-item.active .nav-num { background: var(--blue-light); color: white; }
+
+  .nav-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--tag-bg);
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    flex-shrink: 0;
+  }
+
+  .nav-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  /* MAIN CONTENT */
+  .main { min-width: 0; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, #2A5080 60%, #3A6090 100%);
+    border-radius: 16px;
+    padding: 40px 48px;
+    color: white;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(122,173,212,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .hero-stat { }
+  .hero-stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+  }
+  .hero-stat-label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 2px;
+  }
+
+  /* SECTION */
+  .section {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    scroll-margin-top: 90px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .section-meta {}
+  .section-page {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 4px;
+  }
+
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .section-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .callout-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  .callout.tip { background: #EBF8F2; border-left: 3px solid var(--green); color: #1A5040; }
+  .callout.warning { background: #FFF8EC; border-left: 3px solid var(--orange); color: #5A3800; }
+  .callout.info { background: var(--tag-bg); border-left: 3px solid var(--blue); color: var(--blue-dark); }
+  .callout.danger { background: #FEF0F0; border-left: 3px solid var(--red); color: #5A1010; }
+
+  /* STEPS */
+  .steps { counter-reset: step; }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    counter-increment: step;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--blue-dark);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-content { flex: 1; }
+
+  .step-content strong {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .step-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+
+  .tag {
+    background: var(--tag-bg);
+    color: var(--blue-dark);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .tag.green { background: #EBF8F2; color: #1A6040; }
+  .tag.orange { background: #FFF4E0; color: #7A4000; }
+  .tag.red { background: #FEF0F0; color: #801010; }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin: 16px 0;
+  }
+
+  .data-table th {
+    background: var(--blue-dark);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .data-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:nth-child(even) td { background: #F8FAFC; }
+
+  /* KEYBOARD */
+  kbd {
+    background: var(--text);
+    color: white;
+    font-family: 'DM Sans', monospace;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  /* METRIC CARD */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .metric-card {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid var(--border);
+  }
+
+  .metric-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--blue-dark);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .metric-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* UI MOCK */
+  .ui-mock {
+    background: #1E2A40;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 16px 0;
+    font-family: 'DM Sans', monospace;
+    font-size: 0.8rem;
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .filter-chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .filter-chip .arrow { opacity: 0.5; font-size: 0.65rem; }
+  .filter-chip.active { background: var(--blue); border-color: var(--blue-light); color: white; }
+
+  /* BACK TO TOP */
+  .back-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--blue-dark);
+    color: white;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+  }
+  .back-top:hover { transform: translateY(-2px); }
+
+  /* CHAPTER LABEL */
+  .chapter {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    margin-top: 24px;
+  }
+
+  /* INLINE CODE */
+  code {
+    background: var(--tag-bg);
+    color: var(--blue-dark);
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .hero h1 { font-size: 1.5rem; }
+    .hero-stats { flex-wrap: wrap; gap: 16px; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">IR<span>DATA</span> · Tutorial Power BI</div>
+    <span class="header-badge">Aduana Chile · Feb 2026</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</header>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Contenido</div>
+    <a class="nav-item active" href="#intro" onclick="setActive(this)">
+      <span class="nav-num">0</span>
+      <span class="nav-label">Introducción al Reporte</span>
+    </a>
+    <a class="nav-item" href="#fuentes" onclick="setActive(this)">
+      <span class="nav-num">1</span>
+      <span class="nav-label">Fuentes y Períodos</span>
+    </a>
+    <a class="nav-item" href="#instrucciones" onclick="setActive(this)">
+      <span class="nav-num">2</span>
+      <span class="nav-label">Segmentadores y Filtros</span>
+    </a>
+    <a class="nav-item" href="#resumen" onclick="setActive(this)">
+      <span class="nav-num">3</span>
+      <span class="nav-label">Página Resumen (KPIs)</span>
+    </a>
+    <a class="nav-item" href="#colores" onclick="setActive(this)">
+      <span class="nav-num">4</span>
+      <span class="nav-label">Por Color y Varietal</span>
+    </a>
+    <a class="nav-item" href="#paises" onclick="setActive(this)">
+      <span class="nav-num">5</span>
+      <span class="nav-label">Por País</span>
+    </a>
+    <a class="nav-item" href="#mensual" onclick="setActive(this)">
+      <span class="nav-num">6</span>
+      <span class="nav-label">Volumen Mensual</span>
+    </a>
+    <a class="nav-item" href="#segmentos" onclick="setActive(this)">
+      <span class="nav-num">7</span>
+      <span class="nav-label">Segmentos de Precio</span>
+    </a>
+    <a class="nav-item" href="#bodegas" onclick="setActive(this)">
+      <span class="nav-num">8</span>
+      <span class="nav-label">Por Bodega (Winery)</span>
+    </a>
+    <a class="nav-item" href="#marcas" onclick="setActive(this)">
+      <span class="nav-num">9</span>
+      <span class="nav-label">Por Marca</span>
+    </a>
+    <a class="nav-item" href="#ganadores" onclick="setActive(this)">
+      <span class="nav-num">10</span>
+      <span class="nav-label">Ganadores y Perdedores</span>
+    </a>
+    <a class="nav-item" href="#tariff" onclick="setActive(this)">
+      <span class="nav-num">11</span>
+      <span class="nav-label">Impacto Tarifas (USA)</span>
+    </a>
+    <a class="nav-item" href="#alcohol" onclick="setActive(this)">
+      <span class="nav-num">12</span>
+      <span class="nav-label">Análisis Alcohol</span>
+    </a>
+    <a class="nav-item" href="#exportar" onclick="setActive(this)">
+      <span class="nav-num">★</span>
+      <span class="nav-label">Exportar y Descargar</span>
+    </a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">📊 Tutorial paso a paso</div>
+      <h1>Cómo leer y usar el reporte<br>IRdata Aduana Chile</h1>
+      <p>Este tutorial te enseña a navegar, filtrar y extraer insights del dashboard de exportaciones de vino chileno. Siguelo página por página.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-val">25</div>
+          <div class="hero-stat-label">Páginas en el reporte</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">$1.268M</div>
+          <div class="hero-stat-label">FOB total 2025 (USD)</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">46,6M</div>
+          <div class="hero-stat-label">Cajas 9L exportadas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 0 · INTRO -->
+    <section class="section" id="intro">
+      <div class="section-header">
+        <div class="section-icon">🗺️</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 0 · Portada</div>
+          <h2>¿Qué es este reporte?</h2>
+          <p class="section-desc">Una orientación general antes de empezar a navegar.</p>
+        </div>
+      </div>
+
+      <p style="font-size:0.9rem;line-height:1.7;color:var(--muted)">El reporte de <strong style="color:var(--text)">IRdata Aduana Chile</strong> es un dashboard de Power BI que consolida todas las exportaciones de vino chileno en botella, desde enero 2020 hasta la fecha declarada en la portada. La actualización más reciente es <strong style="color:var(--text)">Febrero 2026</strong>.</p>
+
+      <div class="callout info" style="margin-top:16px">
+        <span class="callout-icon">ℹ️</span>
+        <span>La fuente es <strong>Aduana de Chile</strong>, que publica los datos con un desfase de 1 mes. Ejemplo: la primera semana de enero aparecen datos de noviembre del año anterior.</span>
+      </div>
+
+      <hr class="divider">
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:12px">Estructura del reporte:</p>
+      <table class="data-table">
+        <thead><tr><th>Sección</th><th>Qué muestra</th></tr></thead>
+        <tbody>
+          <tr><td>Portada</td><td>Fecha de actualización, botón de impresión</td></tr>
+          <tr><td>Fuentes</td><td>Origen de datos y periodicidad</td></tr>
+          <tr><td>Instrucciones</td><td>Cómo usar filtros, exportar, modos de vista</td></tr>
+          <tr><td>Páginas de datos (p. 4-22)</td><td>Análisis por tipo, color, país, bodega, marca, segmento</td></tr>
+          <tr><td>Tariff (p. 23)</td><td>Impacto de tarifas USA en precio FOB</td></tr>
+          <tr><td>Alcohol (p. 24)</td><td>Tendencia de graduación alcohólica por varietal</td></tr>
+          <tr><td>Potencial desarrollo (p. 25)</td><td>Features próximas a lanzar en IRdata</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 1 · FUENTES -->
+    <section class="section" id="fuentes">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 1 · Página "Fuentes"</div>
+          <h2>Fuentes, Períodos y Frecuencia</h2>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-val">Enero 2020</div>
+          <div class="metric-label">Inicio del histórico</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">1 mes</div>
+          <div class="metric-label">Desfase publicación Aduana</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">1ª semana</div>
+          <div class="metric-label">Actualización mensual IRdata</div>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <span><strong>Importante:</strong> Si hoy es Abril 2026, el dato más reciente disponible es <strong>Febrero 2026</strong>. Siempre verificar la fecha en la portada antes de extraer conclusiones.</span>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">✅</span>
+        <span>Para comparaciones anuales correctas, <strong>no apliques filtro de mes</strong>. El modelo usa MAT (Moving Annual Total) automáticamente para completar el año en curso.</span>
+      </div>
+    </section>
+
+    <!-- 2 · INSTRUCCIONES / FILTROS -->
+    <section class="section" id="instrucciones">
+      <div class="section-header">
+        <div class="section-icon">🎛️</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 2 · Página "Instrucciones"</div>
+          <h2>Segmentadores y Filtros — La Base de Todo</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Cada página del reporte comparte la misma fila de filtros en la parte superior. Dominar estos segmentadores es la habilidad #1 para sacar valor al dashboard.</p>
+
+      <div class="ui-mock">
+        <div style="font-size:0.65rem;color:rgba(255,255,255,0.4);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Barra de Segmentadores</div>
+        <div class="filter-row">
+          <div class="filter-chip active">AÑO <span class="arrow">▼</span></div>
+          <div class="filter-chip">MES <span class="arrow">▼</span></div>
+          <div class="filter-chip active">TIPO: BOTELLA <span class="arrow">▼</span></div>
+          <div class="filter-chip">SEGMENTO <span class="arrow">▼</span></div>
+          <div class="filter-chip">PAÍS <span class="arrow">▼</span></div>
+          <div class="filter-chip">EMPRESA <span class="arrow">▼</span></div>
+          <div class="filter-chip">MARCA <span class="arrow">▼</span></div>
+          <div class="filter-chip">VARIETAL <span class="arrow">▼</span></div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <table class="data-table">
+        <thead><tr><th>Filtro</th><th>Opciones</th><th>Cuándo usarlo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AÑO</strong></td><td>2020–2026</td><td>Análisis interanual o punto de comparación base</td></tr>
+          <tr><td><strong>MES</strong></td><td>Ene–Dic o Todas</td><td>Estacionalidad o comparar mismo mes vs año anterior</td></tr>
+          <tr><td><strong>TIPO</strong></td><td>BOTELLA (default)</td><td>Siempre en BOTELLA salvo análisis bulk</td></tr>
+          <tr><td><strong>SEGMENTO</strong></td><td>Value → Super Luxury</td><td>Filtrar solo el tier de precio que te interesa</td></tr>
+          <tr><td><strong>PAÍS</strong></td><td>Lista completa</td><td>Análisis de un mercado específico (ej: USA, China)</td></tr>
+          <tr><td><strong>EMPRESA</strong></td><td>Lista de bodegas</td><td>Seguimiento de un competidor</td></tr>
+          <tr><td><strong>MARCA</strong></td><td>Todas las marcas</td><td>Track de una marca en particular</td></tr>
+          <tr><td><strong>VARIETAL</strong></td><td>Cab Sauv, Malbec, etc.</td><td>Performance de un varietal clave</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="divider">
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:14px">Cómo seleccionar múltiples elementos:</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Selección única</strong>
+            <p>Haz clic en un valor. Los demás se deseleccionan automáticamente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Selección múltiple no contigua</strong>
+            <p>Mantén <kbd>Ctrl</kbd> y haz clic en cada valor que quieras agregar.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Selección de rango contiguo</strong>
+            <p>Clic en el primer valor → <kbd>Shift</kbd> + clic en el último.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Borrar un filtro individual</strong>
+            <p>Haz clic en el ícono de <strong>goma de borrar</strong> dentro del segmentador.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <strong>Borrar TODOS los filtros a la vez</strong>
+            <p>Usa el botón <strong>"Borrar todas las segmentaciones"</strong> en la esquina inferior derecha de la portada. ⚡ Muy útil para resetear un análisis.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>Los filtros son <strong>persistentes</strong> mientras navegas entre páginas. Si filtraste por PAÍS = USA en la página de países, ese filtro sigue activo cuando vayas a la página de bodegas.</span>
+      </div>
+    </section>
+
+    <!-- 3 · RESUMEN -->
+    <section class="section" id="resumen">
+      <div class="section-header">
+        <div class="section-icon">📊</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 3 · Página 4 — KPIs Generales</div>
+          <h2>Página Resumen: Los 3 KPIs Principales</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Esta es la página de entrada al análisis. Muestra los tres indicadores clave del mercado total (2025, todas las categorías, BOTELLA).</p>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-val">$1.268M</div>
+          <div class="metric-label">FOB USD — Valor exportado</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">46,6M</div>
+          <div class="metric-label">Cajas 9L — Volumen</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">$27,22</div>
+          <div class="metric-label">USD/9L — Precio promedio</div>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <span>Los tres KPIs muestran <strong>variaciones negativas</strong> en 2025: FOB −4,0%, Volumen −1,4%, Precio −2,6%. El mercado chileno está bajo presión. Usa esta página como diagnóstico inicial.</span>
+      </div>
+
+      <hr class="divider">
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:12px">Cómo leer los KPIs:</p>
+      <table class="data-table">
+        <thead><tr><th>Métrica</th><th>Definición</th><th>Cuándo prestar atención</th></tr></thead>
+        <tbody>
+          <tr><td><code>FOB USD</code></td><td>Valor en dólares puesto en puerto de origen Chile</td><td>Caída en FOB con volumen estable = precio bajando</td></tr>
+          <tr><td><code>9 litros</code></td><td>Cajas equivalentes de 9 litros (estándar de la industria)</td><td>Caída en 9L con FOB estable = mejoró precio mix</td></tr>
+          <tr><td><code>USD/9L</code></td><td>Precio promedio ponderado por caja</td><td>Baja continua = presión hacia abajo en el mix</td></tr>
+          <tr><td><code>Var%</code></td><td>Comparación vs mismo período año anterior</td><td>Rojo = caída; azul/negro = crecimiento</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 4 · COLORES -->
+    <section class="section" id="colores">
+      <div class="section-header">
+        <div class="section-icon">🍷</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 4 · Página 5 — Color y Varietal</div>
+          <h2>Breakdown por Color y Varietal</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Esta página desagrega el mercado total por color (TINTO / BLANCO / NULL) y dentro de cada color, por varietal. La columna <code>SOM Col/Var $</code> es el share dentro de la categoría.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Color</th><th>FOB 2025</th><th>Share</th><th>Var% FOB</th><th>Insight clave</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>TINTO</strong></td><td>$785M</td><td>61,9%</td>
+            <td><span style="color:var(--red)">−6,4%</span></td>
+            <td>Dominante pero con mayor caída. Cab Sauv lider.</td>
+          </tr>
+          <tr>
+            <td><strong>BLANCO</strong></td>
+            <td>$367M</td><td>29,0%</td>
+            <td><span style="color:var(--green)">+2,6%</span></td>
+            <td>Único color en crecimiento. Sauvignon Blanc impulsa.</td>
+          </tr>
+          <tr>
+            <td><strong>NULL</strong></td><td>$116M</td><td>9,2%</td>
+            <td><span style="color:var(--red)">−6,6%</span></td>
+            <td>Blend/sin clasificar. Precio bajo ($19,27).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Caso de uso:</strong> Filtra <code>VARIETAL = Sauvignon Blanc</code> y luego cambia de página. Todos los análisis se actualizan al mismo tiempo para ese varietal.</span>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-icon">🔍</span>
+        <span>El campo <strong>NULL</strong> corresponde a vinos sin varietal declarado en aduana (típicamente blends o vinos de mesa). Incluirlos distorsiona el precio promedio — considera excluirlos si analizas precios premium.</span>
+      </div>
+    </section>
+
+    <!-- 5 · PAISES -->
+    <section class="section" id="paises">
+      <div class="section-header">
+        <div class="section-icon">🌍</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 5 · Páginas 6–7 — Por País</div>
+          <h2>Análisis por País de Destino</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Dos vistas: la primera expande Brasil mostrando su breakdown varietal. La segunda muestra ranking completo con <code>SOM Ctr/Wnr $</code> (share del país en el total). Hay un tercer nivel de drill-down: País → Empresa → Marca.</p>
+
+      <table class="data-table">
+        <thead><tr><th>País</th><th>FOB</th><th>SOM</th><th>Var% FOB</th><th>Señal</th></tr></thead>
+        <tbody>
+          <tr><td>🇧🇷 Brasil</td><td>$207M</td><td>16,3%</td><td><span style="color:var(--green)">+2,5%</span></td><td class="tag green">Ganador</td></tr>
+          <tr><td>🇺🇸 USA</td><td>$113M</td><td>8,9%</td><td><span style="color:var(--red)">−10,3%</span></td><td><span class="tag red">Riesgo</span></td></tr>
+          <tr><td>🇬🇧 UK</td><td>$108M</td><td>8,5%</td><td><span style="color:var(--red)">−7,2%</span></td><td><span class="tag red">Presión</span></td></tr>
+          <tr><td>🇯🇵 Japón</td><td>$103M</td><td>8,1%</td><td><span style="color:var(--red)">−4,8%</span></td><td><span class="tag orange">Atención</span></td></tr>
+          <tr><td>🇨🇳 China</td><td>$101M</td><td>7,9%</td><td><span style="color:var(--red)">−20,8%</span></td><td><span class="tag red">Crítico</span></td></tr>
+          <tr><td>🇨🇦 Canadá</td><td>$78M</td><td>6,1%</td><td><span style="color:var(--green)">+19,1%</span></td><td><span class="tag green">Boom</span></td></tr>
+          <tr><td>🇷🇺 Rusia</td><td>$34M</td><td>2,7%</td><td><span style="color:var(--green)">+42,6%</span></td><td><span class="tag green">Boom</span></td></tr>
+        </tbody>
+      </table>
+
+      <hr class="divider">
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:12px">Cómo usar esta página para análisis competitivo:</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Selecciona un país en el filtro PAÍS</strong>
+            <p>Ej: EMPRESA = tu bodega. El reporte mostrará solo las exportaciones de esa bodega a todos los destinos.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Expande el nodo de un país</strong>
+            <p>Haz clic en el <code>+</code> junto al nombre del país para ver el breakdown por empresa y marca dentro de ese mercado.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Compara USD/9L por país</strong>
+            <p>El precio FOB varía mucho por destino. Canadá ($32,86) vs México ($23,03) = 42% diferencia de precio.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · MENSUAL -->
+    <section class="section" id="mensual">
+      <div class="section-header">
+        <div class="section-icon">📅</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 6 · Página 8 — Volumen Mensual</div>
+          <h2>Distribución Mensual de Embarques</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Tabla en cajas 9L por país y mes. Ideal para detectar <strong>estacionalidad</strong> y planificar logística.</p>
+
+      <div class="callout info">
+        <span class="callout-icon">📊</span>
+        <span><strong>Patrón estacional Brasil 2025:</strong> Enero (647K) → Valle en Feb (402K) → Pico en Julio (1,13M) → Gradual bajada. El Q3 es el trimestre más fuerte para Brasil.</span>
+      </div>
+
+      <hr class="divider">
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:12px">Cómo leer esta página:</p>
+      <table class="data-table">
+        <thead><tr><th>Uso</th><th>Cómo hacerlo</th></tr></thead>
+        <tbody>
+          <tr><td>Ver estacionalidad de un país</td><td>Filtra PAÍS → observa los picos por mes en la tabla</td></tr>
+          <tr><td>Comparar tu bodega vs mercado</td><td>Filtra EMPRESA = tu bodega; el total del año debe coincidir con tus datos internos</td></tr>
+          <tr><td>Exportar los datos</td><td>Clic en <code>⋯</code> de la tabla → "Exportar datos" → Excel o CSV</td></tr>
+          <tr><td>Ampliar la tabla</td><td>Clic en <code>⤢</code> (Focus Mode) para verla en pantalla completa</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 7 · SEGMENTOS -->
+    <section class="section" id="segmentos">
+      <div class="section-header">
+        <div class="section-icon">💲</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 7 · Páginas 9, 15-18 — Segmentos de Precio</div>
+          <h2>Segmentación por Tier de Precio</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">El reporte divide el mercado en 8 segmentos según precio FOB por caja 9L. Esta es la vista más estratégica para posicionamiento.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Segmento</th><th>Rango USD/9L</th><th>FOB 2025</th><th>SOM</th><th>Tendencia</th></tr></thead>
+        <tbody>
+          <tr><td>1. Value</td><td>&lt;$15</td><td>$51M</td><td>4,0%</td><td><span style="color:var(--muted)">—</span></td></tr>
+          <tr><td>2. Popular</td><td>$15–$30</td><td>$665M</td><td>52,4%</td><td><span style="color:var(--red)">−2,8%</span></td></tr>
+          <tr><td>3. Premium</td><td>$30–$40</td><td>$195M</td><td>15,3%</td><td><span style="color:var(--red)">−9,1%</span></td></tr>
+          <tr><td>4. Super Premium</td><td>$40–$60</td><td>$159M</td><td>12,5%</td><td><span style="color:var(--red)">−0,7%</span></td></tr>
+          <tr><td>5. Ultra Premium</td><td>$60–$80</td><td>$54M</td><td>4,2%</td><td><span style="color:var(--muted)">—</span></td></tr>
+          <tr><td>6. Luxury</td><td>$80–$200</td><td>$37M</td><td>2,9%</td><td><span style="color:var(--muted)">—</span></td></tr>
+          <tr><td>7. Super Luxury</td><td>$200+</td><td>$34M</td><td>2,7%</td><td><span style="color:var(--muted)">—</span></td></tr>
+          <tr><td>8. Icon</td><td>&gt;$200 selectivo</td><td>$74M</td><td>5,9%</td><td><span style="color:var(--red)">−15,8%</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <span>El segmento <strong>Icon cae −15,8%</strong> en FOB, arrastrado por Almaviva (−41,7%) y Errazuriz (−55%). Don Melchor es la excepción positiva (+140%). Analiza con EMPRESA activo para desagregar este efecto.</span>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>Las páginas 16-17 muestran <strong>tortas de participación por segmento</strong> (share de empresa dentro de cada tier). Úsalas para benchmarking competitivo dentro de tu categoría de precio.</span>
+      </div>
+    </section>
+
+    <!-- 8 · BODEGAS -->
+    <section class="section" id="bodegas">
+      <div class="section-header">
+        <div class="section-icon">🏭</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 8 · Páginas 10-11 — Por Bodega</div>
+          <h2>Ranking de Bodegas Exportadoras</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Vista de participación de mercado por bodega (Winery). La página 11 desglosa cada bodega por mes para ver estacionalidad de despachos.</p>
+
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Bodega</th><th>FOB 2025</th><th>SOM</th><th>Var% FOB</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Concha y Toro</strong></td><td>$313M</td><td>24,7%</td><td><span style="color:var(--red)">−2,8%</span></td></tr>
+          <tr><td>2</td><td>VSPT Wine Group</td><td>$127M</td><td>10,0%</td><td><span style="color:var(--green)">+4,1%</span></td></tr>
+          <tr><td>3</td><td>Luis Felipe Edwards</td><td>$63M</td><td>5,0%</td><td><span style="color:var(--red)">−19,6%</span></td></tr>
+          <tr><td>4</td><td>Cono Sur</td><td>$52M</td><td>4,1%</td><td><span style="color:var(--green)">+0,7%</span></td></tr>
+          <tr><td>5</td><td>Santa Rita</td><td>$43M</td><td>3,4%</td><td><span style="color:var(--red)">−12,7%</span></td></tr>
+          <tr><td>6</td><td>Bodega Aguirre</td><td>$43M</td><td>3,4%</td><td><span style="color:var(--green)">+24,9%</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span><strong>Truco avanzado:</strong> Filtra EMPRESA = tu competidor directo + PAÍS = tu mercado objetivo. Verás exactamente qué marcas y varietales están vendiendo en ese mercado y a qué precio.</span>
+      </div>
+    </section>
+
+    <!-- 9 · MARCAS -->
+    <section class="section" id="marcas">
+      <div class="section-header">
+        <div class="section-icon">🏷️</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 9 · Páginas 12-14 — Por Marca</div>
+          <h2>Performance por Marca (Brand)</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Nivel más granular de análisis comercial. La página 13 detalla cada sub-marca dentro de Concha y Toro (ej: Casillero del Diablo, Frontera, EPU).</p>
+
+      <div class="callout info">
+        <span class="callout-icon">🔍</span>
+        <span>La columna <code>Share</code> aquí es diferente a <code>SOM</code>: es participación <em>dentro de la bodega madre</em>. Permite ver qué marca genera más FOB relativo dentro del grupo.</span>
+      </div>
+
+      <p style="font-size:0.85rem;font-weight:600;margin:16px 0 12px">Top marcas 2025 (FOB):</p>
+      <div class="tags">
+        <span class="tag">Viña Concha y Toro $133M · 10,5%</span>
+        <span class="tag">Concha y Toro $127M · 10,1%</span>
+        <span class="tag">Otros Chile $122M · 9,6%</span>
+        <span class="tag">Luis Felipe Edwards $52M · 4,1%</span>
+        <span class="tag green">Aguirre $42M · +24,1%</span>
+        <span class="tag">Montes $35M · 2,8%</span>
+        <span class="tag red">Otros Santa Rita −31,9%</span>
+      </div>
+    </section>
+
+    <!-- 10 · GANADORES -->
+    <section class="section" id="ganadores">
+      <div class="section-header">
+        <div class="section-icon">🏆</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 10 · Página 20-22 — Ganadores y Perdedores</div>
+          <h2>Ganadores y Perdedores del Período</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Esta página es la más accionable: muestra qué países y bodegas <strong>ganaron</strong> volumen vs el período anterior, y quiénes <strong>perdieron</strong>. Usa variación absoluta en 9L, no porcentual.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <p style="font-size:0.8rem;font-weight:700;color:var(--green);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">✅ Ganadores por País</p>
+          <div class="tags">
+            <span class="tag green">🇷🇺 Rusia +549K cajas</span>
+            <span class="tag green">🇨🇦 Canadá +402K</span>
+            <span class="tag green">🇧🇷 Brasil +333K</span>
+            <span class="tag green">🇨🇴 Colombia +131K</span>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">❌ Perdedores por País</p>
+          <div class="tags">
+            <span class="tag red">🇨🇳 China −828K cajas</span>
+            <span class="tag red">🇺🇸 USA −485K</span>
+            <span class="tag red">🇬🇧 UK −416K</span>
+            <span class="tag red">🇳🇱 Países Bajos −184K</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <p style="font-size:0.8rem;font-weight:700;color:var(--green);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">✅ Ganadoras por Bodega</p>
+          <div class="tags">
+            <span class="tag green">Bodega Aguirre +515K</span>
+            <span class="tag green">VSPT Wine Group +294K</span>
+            <span class="tag green">Concha y Toro +229K</span>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">❌ Perdedoras por Bodega</p>
+          <div class="tags">
+            <span class="tag red">Luis Felipe Edwards −740K</span>
+            <span class="tag red">Santa Carolina −237K</span>
+            <span class="tag red">Santa Rita −183K</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:16px">
+        <span class="callout-icon">💡</span>
+        <span>Combina esta página con el filtro de SEGMENTO para ver si los ganadores están siendo impulsados por volumen popular o por crecimiento en premiumización.</span>
+      </div>
+    </section>
+
+    <!-- 11 · TARIFF -->
+    <section class="section" id="tariff">
+      <div class="section-header">
+        <div class="section-icon">🇺🇸</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 11 · Página 23 — Impacto Tarifario USA</div>
+          <h2>Análisis de Precios Pre/Post Tarifa USA</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Página especializada, filtrada por <code>PAIS = ESTADOS UNIDOS</code> y <code>MES = agosto 2025</code>. Muestra la comparación de precio FOB inmediatamente antes y después del impacto de tarifas arancelarias.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Columna</th><th>Definición</th></tr></thead>
+        <tbody>
+          <tr><td><code>PX_Ultimo</code></td><td>Precio USD/9L más reciente (agosto 2025)</td></tr>
+          <tr><td><code>PX6 antes_Tariff</code></td><td>Precio promedio en los 6 meses antes de la tarifa</td></tr>
+          <tr><td><code>PX Tariff %</code></td><td>Variación porcentual entre ambos precios</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger">
+        <span class="callout-icon">🚨</span>
+        <span><strong>Señal clave:</strong> Concha y Toro bajó su precio de $24,1 a $16,2 (−32,7%) post-tarifa. VIK de $289 a $132 (−54%). Esto indica ajuste de precio FOB para absorber el impacto arancelario en el consumidor final.</span>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>Cambia el filtro de MES para ver si el ajuste de precios es una tendencia persistente o si hubo recuperación en meses posteriores.</span>
+      </div>
+    </section>
+
+    <!-- 12 · ALCOHOL -->
+    <section class="section" id="alcohol">
+      <div class="section-header">
+        <div class="section-icon">🔬</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo 12 · Página 24 — Análisis de Alcohol</div>
+          <h2>Tendencia de Graduación Alcohólica</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Página única en el mercado: muestra la evolución del ABV promedio exportado por varietal y vintage, desde 2022 hasta 2026.</p>
+
+      <div class="callout info">
+        <span class="callout-icon">📉</span>
+        <span><strong>Tendencia global:</strong> Tanto TINTO como BLANCO muestran caída de ABV desde 2023 hasta 2024, con leve recuperación en 2025. El promedio general vintage 2024 es <strong>12,60°</strong>. El mercado se está adaptando a la demanda de vinos más livianos.</span>
+      </div>
+
+      <p style="font-size:0.85rem;font-weight:600;margin:16px 0 10px">ABV por varietal (vintage 2024):</p>
+      <div class="tags">
+        <span class="tag">Pinot Noir 13,17°</span>
+        <span class="tag">Pedro Jimenez 13,10°</span>
+        <span class="tag">Carmenere 13,08°</span>
+        <span class="tag">Cabernet Franc 13,02°</span>
+        <span class="tag">Merlot 12,89°</span>
+        <span class="tag">Chardonnay 12,88°</span>
+        <span class="tag">Sauvignon 12,41°</span>
+        <span class="tag orange">NULL 12,25°</span>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>Usa el filtro <code>VINTAGE</code> (no AÑO) en esta página. AÑO = año de exportación; VINTAGE = año de cosecha. Son dimensiones distintas.</span>
+      </div>
+    </section>
+
+    <!-- EXPORTAR -->
+    <section class="section" id="exportar">
+      <div class="section-header">
+        <div class="section-icon">⬇️</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo ★ — Exportar, Imprimir y Herramientas</div>
+          <h2>Cómo Descargar Datos y Optimizar Uso</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:20px;line-height:1.6">Cuatro herramientas de productividad que vienen integradas en el reporte:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Exportar datos de un visual → Excel/CSV</strong>
+            <p>Pasa el cursor sobre cualquier tabla o gráfico → aparece el ícono <code>⋯</code> en la esquina superior derecha → clic → "Exportar datos". Elige formato underlying (datos crudos) o summarized (agregados).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Focus Mode / Pantalla completa de un visual</strong>
+            <p>Clic en el ícono <code>⤢</code> junto a cualquier gráfico. Útil para tablas grandes (ej: mensual por país) o para presentar en reuniones. Presiona <kbd>Esc</kbd> para salir.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Imprimir el reporte</strong>
+            <p>Botón "Imprimir" en la portada. Aplica primero los filtros que quieres, luego imprime. El layout está optimizado para impresión en landscape A4.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Borrar todos los filtros</strong>
+            <p>Botón "Borrar todas las segmentaciones" en la esquina inferior derecha de la portada. Resetea el reporte a estado base en un clic.</p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <p style="font-size:0.85rem;font-weight:600;margin-bottom:14px">📋 Flujo de trabajo recomendado para un análisis típico:</p>
+      <div class="callout info">
+        <span class="callout-icon">1️⃣</span>
+        <span>Abre el reporte → verifica la fecha de actualización en portada.</span>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">2️⃣</span>
+        <span>Página Resumen → chequea los 3 KPIs. ¿El mercado crece o cae?</span>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">3️⃣</span>
+        <span>Filtra por tu PAÍS objetivo + tu SEGMENTO de precio.</span>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">4️⃣</span>
+        <span>Página Ganadores/Perdedores → identifica quién tomó tu mercado o a quién le ganaste.</span>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">5️⃣</span>
+        <span>Exporta la tabla necesaria → lleva a Excel o Power BI propio para análisis deeper.</span>
+      </div>
+
+      <div class="callout tip" style="margin-top:16px">
+        <span class="callout-icon">🚀</span>
+        <span><strong>Próximos features de IRdata</strong> (según Potencial de Desarrollo): Múltiples monedas, tipo de venta CIF/FOB, plazo de financiación, agrupaciones por continente/región, mayor detalle de marcas. Consulta a IRdata para acceder a features en beta.</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Volver arriba">↑</button>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const prog = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('progressFill').style.width = prog + '%';
+  });
+
+  function setActive(el) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Auto-highlight nav on scroll
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navItems.forEach(n => {
+      n.classList.remove('active');
+      if (n.getAttribute('href') === '#' + current) n.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
