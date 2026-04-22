@@ -577,7 +577,7 @@
     </a>
     <a class="nav-item" href="#bodegas" onclick="setActive(this)">
       <span class="nav-num">8</span>
-      <span class="nav-label">Por Bodega (Winery)</span>
+      <span class="nav-label">Por Empresa (Winery)</span>
     </a>
     <a class="nav-item" href="#marcas" onclick="setActive(this)">
       <span class="nav-num">9</span>
@@ -598,6 +598,10 @@
     <a class="nav-item" href="#exportar" onclick="setActive(this)">
       <span class="nav-num">★</span>
       <span class="nav-label">Exportar y Descargar</span>
+    </a>
+    <a class="nav-item" href="#roadmap" onclick="setActive(this)">
+      <span class="nav-num">🚀</span>
+      <span class="nav-label">Roadmap · Lo que viene</span>
     </a>
   </aside>
 
@@ -651,7 +655,7 @@
           <tr><td>Portada</td><td>Fecha de actualización, botón de impresión</td></tr>
           <tr><td>Fuentes</td><td>Origen de datos y periodicidad</td></tr>
           <tr><td>Instrucciones</td><td>Cómo usar filtros, exportar, modos de vista</td></tr>
-          <tr><td>Páginas de datos (p. 4-22)</td><td>Análisis por tipo, color, país, bodega, marca, segmento</td></tr>
+          <tr><td>Páginas de datos (p. 4-22)</td><td>Análisis por tipo, color, país, empresa, marca, segmento</td></tr>
           <tr><td>Tariff (p. 23)</td><td>Impacto de tarifas USA en precio FOB</td></tr>
           <tr><td>Alcohol (p. 24)</td><td>Tendencia de graduación alcohólica por varietal</td></tr>
           <tr><td>Potencial desarrollo (p. 25)</td><td>Features próximas a lanzar en IRdata</td></tr>
@@ -836,7 +840,7 @@
           <tr><td><strong>TIPO</strong></td><td>BOTELLA, GRANEL, ESPUMANTE, etc.</td><td>Por defecto en BOTELLA. Cambiarlo para analizar granel o espumantes.</td></tr>
           <tr><td><strong>SEGMENTO</strong></td><td>Value → Super Luxury</td><td>Filtrar solo el tier de precio que te interesa</td></tr>
           <tr><td><strong>PAÍS</strong></td><td>Lista completa</td><td>Análisis de un mercado específico (ej: USA, China)</td></tr>
-          <tr><td><strong>EMPRESA</strong></td><td>Lista de bodegas</td><td>Seguimiento de un competidor</td></tr>
+          <tr><td><strong>EMPRESA</strong></td><td>Lista de empresas</td><td>Seguimiento de un competidor</td></tr>
           <tr><td><strong>MARCA</strong></td><td>Todas las marcas</td><td>Track de una marca en particular</td></tr>
           <tr><td><strong>VARIETAL</strong></td><td>Cab Sauv, Malbec, etc.</td><td>Performance de un varietal clave</td></tr>
         </tbody>
@@ -884,7 +888,7 @@
 
       <div class="callout tip">
         <span class="callout-icon">💡</span>
-        <span>Los filtros son <strong>persistentes</strong> mientras navegas entre páginas. Si filtraste por PAÍS = USA en la página de países, ese filtro sigue activo cuando vayas a la página de bodegas.</span>
+        <span>Los filtros son <strong>persistentes</strong> mientras navegas entre páginas. Si filtraste por PAÍS = USA en la página de países, ese filtro sigue activo cuando vayas a la página de empresas.</span>
       </div>
     </section>
 
@@ -971,25 +975,25 @@
           <tr>
             <td style="text-align:center; font-size:1.1rem;">↑</td>
             <td><strong>Subir nivel</strong><br><span style="font-size:0.72rem;color:var(--muted)">Drill Up</span></td>
-            <td>Colapsa la jerarquía al nivel superior. Ej: si estás viendo marcas dentro de una bodega, vuelve a ver solo bodegas.</td>
+            <td>Colapsa la jerarquía al nivel superior. Ej: si estás viendo marcas dentro de una empresa, vuelve a ver solo empresas.</td>
             <td>Después de haber bajado a un nivel de detalle y querer volver atrás sin usar el filtro.</td>
           </tr>
           <tr>
             <td style="text-align:center; font-size:1.1rem;">↓</td>
             <td><strong>Bajar un nivel</strong><br><span style="font-size:0.72rem;color:var(--muted)">Drill Down (un elemento)</span></td>
             <td>Al hacer clic <em>primero en este ícono</em> y luego en un elemento del visual, baja al siguiente nivel de jerarquía <strong>solo para ese elemento</strong>. Ej: clic en Brasil → ve el detalle de Brasil por varietal.</td>
-            <td>Explorar el detalle de un país, bodega o segmento específico sin modificar los filtros globales.</td>
+            <td>Explorar el detalle de un país, empresa o segmento específico sin modificar los filtros globales.</td>
           </tr>
           <tr>
             <td style="text-align:center; font-size:1.1rem;">⇊</td>
             <td><strong>Expandir todo</strong><br><span style="font-size:0.72rem;color:var(--muted)">Go to Next Level</span></td>
-            <td>Baja <strong>todos</strong> los elementos al siguiente nivel de jerarquía al mismo tiempo. Ej: expande todos los países mostrando sus bodegas simultáneamente.</td>
+            <td>Baja <strong>todos</strong> los elementos al siguiente nivel de jerarquía al mismo tiempo. Ej: expande todos los países mostrando sus empresas simultáneamente.</td>
             <td>Querer ver el nivel completo siguiente sin seleccionar uno por uno. Útil para comparar todos los sub-niveles de golpe.</td>
           </tr>
           <tr>
             <td style="text-align:center; font-size:1.1rem;">⊕</td>
             <td><strong>Incluir nivel</strong><br><span style="font-size:0.72rem;color:var(--muted)">Expand one level down</span></td>
-            <td>Expande el nivel siguiente <strong>manteniendo también el nivel actual visible</strong>. Ej: muestra País + Bodega en la misma vista, no uno u otro.</td>
+            <td>Expande el nivel siguiente <strong>manteniendo también el nivel actual visible</strong>. Ej: muestra País + Empresa en la misma vista, no uno u otro.</td>
             <td>Cuando necesitás ver simultáneamente dos niveles de la jerarquía para comparar contexto y detalle.</td>
           </tr>
           <tr>
@@ -1037,7 +1041,7 @@
       <p style="font-size:0.85rem;font-weight:600;margin-bottom:14px;">🔍 Drill Down en las tablas del reporte — paso a paso</p>
 
       <div style="background:var(--bg); border-radius:10px; padding:20px; border:1px solid var(--border); margin-bottom:16px;">
-        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:14px;line-height:1.6;">Las tablas jerárquicas del reporte (País → Empresa → Marca, o Segmento → Bodega) tienen un símbolo <code>+</code> y <code>−</code> junto a cada fila. Así se navegan:</p>
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:14px;line-height:1.6;">Las tablas jerárquicas del reporte (País → Empresa → Marca, o Segmento → Empresa) tienen un símbolo <code>+</code> y <code>−</code> junto a cada fila. Así se navegan:</p>
         <div class="steps">
           <div class="step">
             <div class="step-num">1</div>
@@ -1222,7 +1226,7 @@
           <div class="step-num">1</div>
           <div class="step-content">
             <strong>Selecciona un país en el filtro PAÍS</strong>
-            <p>Ej: EMPRESA = tu bodega. El reporte mostrará solo las exportaciones de esa bodega a todos los destinos.</p>
+            <p>Ej: EMPRESA = tu empresa. El reporte mostrará solo las exportaciones de esa empresa a todos los destinos.</p>
           </div>
         </div>
         <div class="step">
@@ -1265,7 +1269,7 @@
         <thead><tr><th>Uso</th><th>Cómo hacerlo</th></tr></thead>
         <tbody>
           <tr><td>Ver estacionalidad de un país</td><td>Filtra PAÍS → observa los picos por mes en la tabla</td></tr>
-          <tr><td>Comparar tu bodega vs mercado</td><td>Filtra EMPRESA = tu bodega; el total del año debe coincidir con tus datos internos</td></tr>
+          <tr><td>Comparar tu empresa vs mercado</td><td>Filtra EMPRESA = tu empresa; el total del año debe coincidir con tus datos internos</td></tr>
           <tr><td>Exportar los datos</td><td>Clic en <code>⋯</code> de la tabla → "Exportar datos" → Excel o CSV</td></tr>
           <tr><td>Ampliar la tabla</td><td>Clic en <code>⤢</code> (Focus Mode) para verla en pantalla completa</td></tr>
         </tbody>
@@ -1436,7 +1440,7 @@
           <div style="font-family:'Syne',sans-serif; font-size:1rem; font-weight:800; color:#1A2540; margin-bottom:8px; line-height:1.3;">Mercado pequeño, peso Icon descomunal</div>
           <p style="font-size:0.8rem; color:#5A4010; line-height:1.7; margin-bottom:10px;">Francia es un mercado chico en volumen total ($20,8M, 1,6% del mercado). La mayoría de las filas son blancas. Pero la columna <strong>8. Icon muestra $15,3M y 73,8% de share</strong> — casi toda la exportación chilena a Francia es vino icónico de altísimo precio.</p>
           <div style="background:rgba(245,166,35,0.12); border-radius:6px; padding:10px; font-size:0.78rem; color:#7A4800; line-height:1.6;">
-            <strong>Señal comercial:</strong> Francia no compra vino chileno masivo. Lo que importa son Almaviva, Errazuriz, etc. Si tu bodega quiere entrar a Francia, el posicionamiento y precio mínimo de entrada es radicalmente distinto que para otros mercados.
+            <strong>Señal comercial:</strong> Francia no compra vino chileno masivo. Lo que importa son Almaviva, Errazuriz, etc. Si tu empresa quiere entrar a Francia, el posicionamiento y precio mínimo de entrada es radicalmente distinto que para otros mercados.
           </div>
         </div>
 
@@ -1488,20 +1492,20 @@
 
     </section>
 
-    <!-- 8 · BODEGAS -->
+    <!-- 8 · EMPRESAS -->
     <section class="section" id="bodegas">
       <div class="section-header">
         <div class="section-icon">🏭</div>
         <div class="section-meta">
-          <div class="section-page">Módulo 8 · Páginas 10-11 — Por Bodega</div>
-          <h2>Ranking de Bodegas Exportadoras</h2>
+          <div class="section-page">Módulo 8 · Páginas 10-11 — Por Empresa</div>
+          <h2>Ranking de Empresas Exportadoras</h2>
         </div>
       </div>
 
-      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Vista de participación de mercado por bodega (Winery). La página 11 desglosa cada bodega por mes para ver estacionalidad de despachos.</p>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Vista de participación de mercado por empresa (Winery). La página 11 desglosa cada empresa por mes para ver estacionalidad de despachos.</p>
 
       <table class="data-table">
-        <thead><tr><th>#</th><th>Bodega</th><th>FOB 2025</th><th>SOM</th><th>Var% FOB</th></tr></thead>
+        <thead><tr><th>#</th><th>Empresa</th><th>FOB 2025</th><th>SOM</th><th>Var% FOB</th></tr></thead>
         <tbody>
           <tr><td>1</td><td><strong>Concha y Toro</strong></td><td>$313M</td><td>24,7%</td><td><span style="color:var(--red)">−2,8%</span></td></tr>
           <tr><td>2</td><td>VSPT Wine Group</td><td>$127M</td><td>10,0%</td><td><span style="color:var(--green)">+4,1%</span></td></tr>
@@ -1532,7 +1536,7 @@
 
       <div class="callout info">
         <span class="callout-icon">🔍</span>
-        <span>La columna <code>Share</code> aquí es diferente a <code>SOM</code>: es participación <em>dentro de la bodega madre</em>. Permite ver qué marca genera más FOB relativo dentro del grupo.</span>
+        <span>La columna <code>Share</code> aquí es diferente a <code>SOM</code>: es participación <em>dentro de la empresa madre</em>. Permite ver qué marca genera más FOB relativo dentro del grupo.</span>
       </div>
 
       <p style="font-size:0.85rem;font-weight:600;margin:16px 0 12px">Top marcas 2025 (FOB):</p>
@@ -1557,7 +1561,7 @@
         </div>
       </div>
 
-      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Esta página es la más accionable: muestra qué países y bodegas <strong>ganaron</strong> volumen vs el período anterior, y quiénes <strong>perdieron</strong>. Usa variación absoluta en 9L, no porcentual.</p>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Esta página es la más accionable: muestra qué países y empresas <strong>ganaron</strong> volumen vs el período anterior, y quiénes <strong>perdieron</strong>. Usa variación absoluta en 9L, no porcentual.</p>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
         <div>
@@ -1584,7 +1588,7 @@
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
         <div>
-          <p style="font-size:0.8rem;font-weight:700;color:var(--green);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">✅ Ganadoras por Bodega</p>
+          <p style="font-size:0.8rem;font-weight:700;color:var(--green);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">✅ Ganadoras por Empresa</p>
           <div class="tags">
             <span class="tag green">Bodega Aguirre +515K</span>
             <span class="tag green">VSPT Wine Group +294K</span>
@@ -1592,7 +1596,7 @@
           </div>
         </div>
         <div>
-          <p style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">❌ Perdedoras por Bodega</p>
+          <p style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">❌ Perdedoras por Empresa</p>
           <div class="tags">
             <span class="tag red">Luis Felipe Edwards −740K</span>
             <span class="tag red">Santa Carolina −237K</span>
@@ -1741,10 +1745,124 @@
         <span>Exporta la tabla necesaria → lleva a Excel o Power BI propio para análisis deeper.</span>
       </div>
 
-      <div class="callout tip" style="margin-top:16px">
-        <span class="callout-icon">🚀</span>
-        <span><strong>Próximos features de IRdata</strong> (según Potencial de Desarrollo): Múltiples monedas, tipo de venta CIF/FOB, plazo de financiación, agrupaciones por continente/región, mayor detalle de marcas. Consulta a IRdata para acceder a features en beta.</span>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="section" id="roadmap">
+      <div class="section-header">
+        <div class="section-icon">🚀</div>
+        <div class="section-meta">
+          <div class="section-page">Módulo Final · Roadmap IRdata</div>
+          <h2>Lo que viene: dimensiones que van a multiplicar el poder analítico</h2>
+          <p class="section-desc">El reporte actual es solo el punto de partida. Cada nueva dimensión que se incorpora no suma una variable — multiplica los cruces posibles.</p>
+        </div>
       </div>
+
+      <!-- INTRO STATEMENT -->
+      <div style="background:linear-gradient(135deg,#0A1628 0%,#0F2540 60%,#1A3A60 100%); border-radius:14px; padding:32px; margin-bottom:28px; position:relative; overflow:hidden;">
+        <div style="position:absolute; right:-60px; top:-60px; width:260px; height:260px; background:radial-gradient(circle, rgba(74,127,181,0.12) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="position:absolute; left:-40px; bottom:-40px; width:200px; height:200px; background:radial-gradient(circle, rgba(160,80,255,0.08) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="font-size:0.65rem; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#7AADD4; margin-bottom:12px;">La lógica detrás del crecimiento</div>
+        <p style="font-size:1rem; font-weight:600; color:white; line-height:1.7; margin-bottom:16px; max-width:640px;">Hoy el reporte responde: <em style="color:#7AADD4">¿qué se exportó, a dónde, cuánto y a qué precio?</em><br>Con cada nueva dimensión que se incorpora, la pregunta se vuelve más precisa y la decisión más rentable.</p>
+        <p style="font-size:0.85rem; color:rgba(255,255,255,0.55); line-height:1.7; max-width:600px;">Si hoy tenés <strong style="color:white">8 dimensiones</strong> (país, empresa, marca, varietal, segmento, color, tipo, período), cada nueva variable que se agrega genera decenas de nuevos cruces analíticos. No es aritmética — es exponencial.</p>
+      </div>
+
+      <!-- GRID DE FEATURES -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:28px;">
+
+        <!-- MONEDAS -->
+        <div style="border:1px solid var(--border); border-radius:12px; padding:22px; background:white; position:relative;">
+          <div style="position:absolute; top:16px; right:16px; background:#E8F0FA; color:#1E3A5F; font-size:0.6rem; font-weight:700; padding:2px 8px; border-radius:10px; letter-spacing:1px; text-transform:uppercase;">Próximamente</div>
+          <div style="font-size:1.6rem; margin-bottom:10px;">💱</div>
+          <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">Monedas de cambio</div>
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.7; margin-bottom:12px;">Ver el FOB en USD, EUR, JPY, GBP, CAD o la moneda local del mercado de destino. El mismo dato en distintas monedas cambia completamente la lectura de competitividad.</p>
+          <div style="background:var(--bg); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:0.72rem; font-weight:700; color:var(--blue-dark); margin-bottom:4px;">Cruces que habilita:</div>
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.6;">¿Cuánto bajó el precio real en EUR para un comprador europeo vs lo que muestra el USD? ¿El fortalecimiento del dólar explica la caída en volumen de UK?</div>
+          </div>
+        </div>
+
+        <!-- TIPO DE VENTA -->
+        <div style="border:1px solid var(--border); border-radius:12px; padding:22px; background:white; position:relative;">
+          <div style="position:absolute; top:16px; right:16px; background:#E8F0FA; color:#1E3A5F; font-size:0.6rem; font-weight:700; padding:2px 8px; border-radius:10px; letter-spacing:1px; text-transform:uppercase;">Próximamente</div>
+          <div style="font-size:1.6rem; margin-bottom:10px;">🚢</div>
+          <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">Tipo de venta: FOB / CIF / FCA / EXW</div>
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.7; margin-bottom:12px;">La misma exportación declarada en distintos Incoterms tiene valores FOB diferentes. Separar por tipo de venta permite comparaciones homogéneas entre empresas que usan condiciones distintas.</p>
+          <div style="background:var(--bg); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:0.72rem; font-weight:700; color:var(--blue-dark); margin-bottom:4px;">Cruces que habilita:</div>
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.6;">¿Qué empresa está subsidiando el flete (CIF) vs quién vende ex-bodega (EXW)? El precio de competencia real puede estar distorsionado por el Incoterm.</div>
+          </div>
+        </div>
+
+        <!-- FINANCIACIÓN -->
+        <div style="border:1px solid var(--border); border-radius:12px; padding:22px; background:white; position:relative;">
+          <div style="position:absolute; top:16px; right:16px; background:#E8F0FA; color:#1E3A5F; font-size:0.6rem; font-weight:700; padding:2px 8px; border-radius:10px; letter-spacing:1px; text-transform:uppercase;">Próximamente</div>
+          <div style="font-size:1.6rem; margin-bottom:10px;">📅</div>
+          <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">Plazo de financiación</div>
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.7; margin-bottom:12px;">Contado, 30, 60, 90 días y más. El plazo es parte del precio real de venta — una operación a 90 días a $27/9L no es lo mismo que la misma operación al contado.</p>
+          <div style="background:var(--bg); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:0.72rem; font-weight:700; color:var(--blue-dark); margin-bottom:4px;">Cruces que habilita:</div>
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.6;">¿Qué mercados exigen mayor plazo? ¿Qué empresa está financiando más a sus distribuidores? ¿El precio promedio ajustado por plazo cambia el ranking de rentabilidad?</div>
+          </div>
+        </div>
+
+        <!-- REGIONES -->
+        <div style="border:1px solid var(--border); border-radius:12px; padding:22px; background:white; position:relative;">
+          <div style="position:absolute; top:16px; right:16px; background:#E8F0FA; color:#1E3A5F; font-size:0.6rem; font-weight:700; padding:2px 8px; border-radius:10px; letter-spacing:1px; text-transform:uppercase;">Próximamente</div>
+          <div style="font-size:1.6rem; margin-bottom:10px;">🌐</div>
+          <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">Agrupaciones por continente y región</div>
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.7; margin-bottom:12px;">Europa del Norte, Europa del Este, LATAM, Asia-Pacífico, Middle East & Africa. Ver el portfolio con lente regional permite estrategias de distribución más coherentes geográficamente.</p>
+          <div style="background:var(--bg); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:0.72rem; font-weight:700; color:var(--blue-dark); margin-bottom:4px;">Cruces que habilita:</div>
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.6;">¿Qué región está creciendo globalmente? ¿Tiene sentido un distribuidor regional único? ¿Dónde hay concentración de riesgo si un mercado cae?</div>
+          </div>
+        </div>
+
+        <!-- MARCAS DETALLE -->
+        <div style="border:1px solid var(--border); border-radius:12px; padding:22px; background:white; position:relative;">
+          <div style="position:absolute; top:16px; right:16px; background:#E8F0FA; color:#1E3A5F; font-size:0.6rem; font-weight:700; padding:2px 8px; border-radius:10px; letter-spacing:1px; text-transform:uppercase;">Próximamente</div>
+          <div style="font-size:1.6rem; margin-bottom:10px;">🏷️</div>
+          <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">Mayor detalle de marcas y sub-marcas</div>
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.7; margin-bottom:12px;">Desagregación completa hasta nivel de etiqueta y línea de producto. Hoy algunos grupos aparecen como "Otros" — con mayor detalle cada marca tiene su propia trazabilidad completa.</p>
+          <div style="background:var(--bg); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:0.72rem; font-weight:700; color:var(--blue-dark); margin-bottom:4px;">Cruces que habilita:</div>
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.6;">Track de una marca específica en cada mercado, evolución de precio por línea, detección de canibalizaciones entre sub-marcas del mismo grupo.</div>
+          </div>
+        </div>
+
+        <!-- Y MUCHO MAS -->
+        <div style="border:2px dashed rgba(160,80,255,0.3); border-radius:12px; padding:22px; background:linear-gradient(135deg,rgba(160,80,255,0.04),rgba(74,127,181,0.04)); position:relative;">
+          <div style="font-size:1.6rem; margin-bottom:10px;">∞</div>
+          <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">Y muchos cruces más…</div>
+          <p style="font-size:0.8rem; color:var(--muted); line-height:1.7; margin-bottom:14px;">Cada nueva dimensión se puede cruzar con todas las existentes. La plataforma está diseñada para crecer en capas sin perder rendimiento.</p>
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Vintage × Segmento</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">ABV × Precio</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Incoterm × País</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Plazo × Empresa</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Región × Varietal</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Moneda × Segmento</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Formato × Mercado</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Plazo × Segmento</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Incoterm × Empresa</span>
+            <span style="background:rgba(160,80,255,0.1); color:#6020AA; font-size:0.7rem; font-weight:600; padding:3px 9px; border-radius:6px;">Región × Precio</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CLOSING STATEMENT -->
+      <div style="background:linear-gradient(135deg,#0A1628 0%,#1A3050 100%); border-radius:14px; padding:36px 32px; text-align:center; position:relative; overflow:hidden;">
+        <div style="position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%, rgba(74,127,181,0.15) 0%, transparent 60%); pointer-events:none;"></div>
+        <div style="font-size:2rem; margin-bottom:14px;">📡</div>
+        <h3 style="font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; color:white; margin-bottom:12px; line-height:1.5;">IRdata es una plataforma viva.<br>Cada actualización suma inteligencia.</h3>
+        <p style="font-size:0.85rem; color:rgba(255,255,255,0.6); line-height:1.8; max-width:520px; margin:0 auto 24px;">La data de Aduana Chile es solo el comienzo. El roadmap contempla integrar fuentes de Argentina, datos de importación por destino, precios de góndola y correlaciones con indicadores macroeconómicos. La visión es una sola plataforma para toda la inteligencia comercial del vino del Cono Sur.</p>
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:12px 22px;">
+          <span style="font-size:0.8rem; color:rgba(255,255,255,0.5);">¿Querés proponer un nuevo cruce o feature?</span>
+          <span style="font-size:0.8rem; font-weight:700; color:#7AADD4;">→ Contactá a IRdata</span>
+        </div>
+      </div>
+
     </section>
 
   </main>
